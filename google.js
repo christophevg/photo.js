@@ -13,18 +13,21 @@
   processAlbums = function processAlbums( data ) {
     var albums = data.feed.entry;
     for( var a=0; a<albums.length; a++ ) {
+
       var album = albums[a];
+
       var id = album.link[0].href.replace( /\?.*$/, "" );
+
       this.addAlbum( {
         id     : id,
         title  : album.title.$t,
-        thumb  : album['media$group']['media$thumbnail'][0].url,
+        thumb  : album['media$group']['media$thumbnail'][0].url
       } );
 
       var cb = registerCallback( (function(viewer) { 
         return function(data) { processPhotos.call(viewer, data); } })(this));
       var base = album.link[0].href;
-      var url = base + "&kind=photo&callback=__google_photo_cb__["+cb+"]";
+      var url = base + "&kind=photo&thumbsize=75,100&callback=__google_photo_cb__["+cb+"]";
       get( url );
     }
   },
@@ -37,10 +40,11 @@
       var photo = photos[p];
       var id = photo.id.$t.replace( /\?.*$/, "" );
       this.addPhoto( albumId, {
-        id    : id,
-        title : photo.title.$t,
-        thumb : photo['media$group']['media$thumbnail'][0].url,
-        src   : photo.content.src
+        id      : id,
+        title   : photo.title.$t,
+        thumb   : photo['media$group']['media$thumbnail'][0].url,
+        preview : photo['media$group']['media$thumbnail'][1].url,
+        src     : photo.content.src
       } );
     }
   },
@@ -72,5 +76,5 @@
     var url = base + "&kind=album&callback=__google_photo_cb__["+cb+"]";
     get( url );
   };
-
+  
 } )( Photo || window);
