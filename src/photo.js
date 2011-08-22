@@ -5,7 +5,6 @@
   createImage = function createImage( attrs ) {
     var container = document.createElement( "DIV" );
     container.className = "container " + attrs.classes;
-    container.style.display = "inline-block";
 
     var img = document.createElement( "IMG" );
     img.className = attrs.classes;

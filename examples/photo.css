@@ -1,11 +1,11 @@
 BODY {
-  background-color: grey;
+  background-color: #808080;
 }
 
 A.back {
   display: none;
   font: 12pt Helvetica;
-  color: beige; 
+  color: #F5F5DC; 
 }
 
 DIV.albums {
@@ -14,7 +14,12 @@ DIV.albums {
   overflow-x: auto;
 }
 
+DIV.container {
+  display : inline;  
+}
+
 DIV.albums DIV.container {
+  float: left;
   width: 210px;
   background-image: url( 'album.png' );
   background-repeat: no-repeat;
@@ -24,11 +29,12 @@ DIV.albums DIV.container DIV.title {
   margin-top: 35px;
   margin-right: 30px;
   font: 12pt Helvetica;
-  color: beige; 
+  color: #F5F5DC; 
   text-align: center;
 }
 
 DIV.albums DIV IMG {
+  padding: 0px;
   margin-top: 30px;
   margin-left: 10px;
 }
@@ -44,13 +50,15 @@ DIV.photo {
 DIV.thumbs {
   display: none;
   border: 1px solid black;
-  min-height: 54px;
   width: 100%;
   white-space: nowrap;
-  overflow: scroll;
+  overflow-x: auto;
+  -ms-overflow-x: auto;
+  overflow-y: hidden;
+  -ms-overflow-x: hidden;
 }
 
 IMG.thumb {
   cursor: pointer;
-  padding-right: 5px;
+  padding: 5px;
 }

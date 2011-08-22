@@ -13,12 +13,15 @@
   processAlbums = function processAlbums( data ) {
     var albums = data.feed.entry;
     for( var a=0; a<albums.length; a++ ) {
+
       var album = albums[a];
+
       var id = album.link[0].href.replace( /\?.*$/, "" );
+
       this.addAlbum( {
         id     : id,
         title  : album.title.$t,
-        thumb  : album['media$group']['media$thumbnail'][0].url,
+        thumb  : album['media$group']['media$thumbnail'][0].url
       } );
 
       var cb = registerCallback( (function(viewer) { 
@@ -72,5 +75,5 @@
     var url = base + "&kind=album&callback=__google_photo_cb__["+cb+"]";
     get( url );
   };
-
+  
 } )( Photo || window);

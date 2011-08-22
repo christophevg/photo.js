@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -15,7 +16,7 @@
   <div id="myViewer-thumbs" class="thumbs"></div>
   
   <script>
-
+  
   function back() {
     document.getElementById('myViewer-albums').style.display = "block";
     document.getElementById('myViewer-thumbs').style.display = "none";
@@ -23,7 +24,6 @@
     document.getElementById( 'back' ).style.display = "none";
   }
 
-  window.onload = function() {
     var myGoogle = Photo.providers.google.connect( '106074746666509232363' );
 
     function showAlbumDetails() {
@@ -36,7 +36,6 @@
     Photo.activate        ( "myViewer-"      )
          .useDataProvider ( myGoogle         )
          .onAlbumChange   ( showAlbumDetails );
-  }
 
   </script>
 
