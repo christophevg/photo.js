@@ -9,7 +9,9 @@
     var img = document.createElement( "IMG" );
     img.className = attrs.classes;
     img.src       = attrs.src;
-    img.onclick   = attrs.onclick;
+    if( typeof attrs.onclick == "function" ) {
+      img.onclick   = attrs.onclick;
+    }
 
     container.appendChild(img);
 
@@ -35,6 +37,7 @@
   Photo.viewer = function viewer( id ) {
     this.providers = [];
     this.albums = document.getElementById( id + "albums" );
+    this.table  = document.getElementById( id + "table"  );
     this.thumbs = document.getElementById( id + "thumbs" );
     this.photo  = document.getElementById( id + "photo"  );
     this.clearCache();
@@ -47,8 +50,18 @@
       return this;
     };
 
-  Photo.viewer.prototype.onAlbumChange = function onAlbumChange( cb ) {
-    if( typeof cb == "function" ) { this.handleAlbumChange = cb; }
+  Photo.viewer.prototype.onAlbumSelection = function onAlbumSelection( cb ) {
+    if( typeof cb == "function" ) { this.handleAlbumSelection = cb; }
+    return this;
+  };
+
+  Photo.viewer.prototype.onPreviewSelection = function onPreviewSelection(cb){
+    if( typeof cb == "function" ) { this.handlePreviewSelection = cb; }
+    return this;
+  };
+
+  Photo.viewer.prototype.onPhotoSelection = function onPhotoSelection(cb){
+    if( typeof cb == "function" ) { this.handlePhotoSelection = cb; }
     return this;
   };
   
@@ -98,10 +111,22 @@
   };
 
   Photo.viewer.prototype.refreshAlbum = function refreshAlbum() {
+    this.table.innerHTML = "";
     this.thumbs.innerHTML = "";
+
     var albumId = this.currentAlbum;
     for( var i=0; i<this.cache.albums[albumId].photos.length; i++ ) {
       var photo = this.cache.photos[this.cache.albums[albumId].photos[i]];
+      // add it to the table
+      this.table.appendChild( createImage( {
+        classes : "thumb",
+        src     : photo.preview,
+        onclick : (function(viewer, photoId) { 
+                    return function() { 
+                      viewer.selectPreview.call(viewer, photoId);
+                    } } )(this, photo.id)
+      } ) );
+      // add it to the thumbs
       this.thumbs.appendChild( createImage( {
         classes : "thumb",
         src     : photo.thumb,
@@ -115,8 +140,12 @@
   };
   
   Photo.viewer.prototype.refreshPhoto = function refreshPhoto() {
-    this.photo.style.backgroundImage = 
-      "url('" + this.cache.photos[this.currentPhoto].src + "')";
+    this.photo.innerHTML = "";
+    
+    this.photo.appendChild( createImage( {
+      classes : "full",
+      src     : this.cache.photos[this.currentPhoto].src
+    } ) );
     return this;
   };
   
@@ -129,14 +158,29 @@
     }
     
     // notify the client
-    this.handleAlbumChange.apply(this);
+    if( typeof this.handleAlbumSelection == "function" ) {
+       this.handleAlbumSelection.apply(this);
+    }
     return this;
   };
   
+  Photo.viewer.prototype.selectPreview = function selectPreview( photoId ) {
+    this.selectPhoto( photoId );
+    // notify the client
+    if( typeof this.handlePreviewSelection == "function" ) {
+      this.handlePreviewSelection.apply(this);
+    }
+    return this;
+  };
+
   Photo.viewer.prototype.selectPhoto = function selectPhoto( photoId ) {
     if( this.currentPhoto == photoId ) { return this; }
     this.currentPhoto = photoId;
     this.refreshPhoto();
+    // notify the client
+    if( typeof this.handlePhotoSelection == "function" ) {
+      this.handlePhotoSelection.apply(this);
+    }
     return this;
   };
 

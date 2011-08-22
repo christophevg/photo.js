@@ -1,1 +1,2 @@
 - lower to predefined html that is added through templates
+- use # anchors in URL to keep track of currentAlbum/View/Photo

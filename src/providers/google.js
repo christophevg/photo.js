@@ -27,7 +27,7 @@
       var cb = registerCallback( (function(viewer) { 
         return function(data) { processPhotos.call(viewer, data); } })(this));
       var base = album.link[0].href;
-      var url = base + "&kind=photo&callback=__google_photo_cb__["+cb+"]";
+      var url = base + "&kind=photo&thumbsize=75,100&callback=__google_photo_cb__["+cb+"]";
       get( url );
     }
   },
@@ -40,10 +40,11 @@
       var photo = photos[p];
       var id = photo.id.$t.replace( /\?.*$/, "" );
       this.addPhoto( albumId, {
-        id    : id,
-        title : photo.title.$t,
-        thumb : photo['media$group']['media$thumbnail'][0].url,
-        src   : photo.content.src
+        id      : id,
+        title   : photo.title.$t,
+        thumb   : photo['media$group']['media$thumbnail'][0].url,
+        preview : photo['media$group']['media$thumbnail'][1].url,
+        src     : photo.content.src
       } );
     }
   },
