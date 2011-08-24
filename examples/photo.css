@@ -45,6 +45,7 @@ IMG.thumb {
 /* albums */
 
 DIV.albums {
+  display: none;
   min-height: 160px;
   width: 100%;
 }
