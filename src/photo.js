@@ -101,10 +101,10 @@
         classes : "album thumb",
         src     : album.thumb,
         title   : album.title,
-        onclick : (function(viewer) {
+        onclick : (function(viewer,albumId) {
                     return function() {
-                       viewer.selectAlbum.call(viewer, album.id);
-                    } } )(this)
+                       viewer.selectAlbum.call(viewer, albumId);
+                    } } )(this, album.id)
       } ) );
     }
     return this;
