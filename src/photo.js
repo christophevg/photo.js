@@ -8,6 +8,9 @@
 
     var img = document.createElement( "IMG" );
     img.className = attrs.classes;
+    if( typeof attrs.onload == "function" ) {
+      img.onload = attrs.onload;
+    }
     img.src       = attrs.src;
     if( typeof attrs.onclick == "function" ) {
       img.onclick   = attrs.onclick;
@@ -62,6 +65,11 @@
 
   Photo.viewer.prototype.onPhotoSelection = function onPhotoSelection(cb){
     if( typeof cb == "function" ) { this.handlePhotoSelection = cb; }
+    return this;
+  };
+
+  Photo.viewer.prototype.onPhotoLoad = function onPhotoLoad(cb){
+    if( typeof cb == "function" ) { this.handlePhotoLoad = cb; }
     return this;
   };
   
@@ -144,6 +152,7 @@
     
     this.photo.appendChild( createImage( {
       classes : "full",
+      onload  : this.handlePhotoLoad,
       src     : this.cache.photos[this.currentPhoto].src
     } ) );
     return this;

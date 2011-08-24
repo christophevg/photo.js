@@ -88,6 +88,9 @@
           img   = photo.firstChild.firstChild,
           scaleWidth = img.width / (photo.offsetWidth - 10),
           scaleHeight = img.height / (photo.offsetHeight - 10);
+      // sometimes the photo isn't displayed correctly and the width = 0
+      // and it seems I can't put this in the photo.js code itself ?!
+      if( img.width < 5 ) { myViewer.refreshPhoto() }
       scale = scaleWidth > scaleHeight ? scaleWidth : scaleHeight;
       img.width  /= scale;
       if( isIE ) { img.height /= scale; }
@@ -114,7 +117,8 @@
          .useDataProvider   ( myGoogle         )
          .onAlbumSelection  ( showAlbumTable   )
          .onPreviewSelection( showAlbumDetails )
-         .onPhotoSelection  ( resetTools       );
+         .onPhotoSelection  ( resetTools       )
+         .onPhotoLoad       ( fit              );
 
   </script>
 
