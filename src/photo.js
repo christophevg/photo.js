@@ -2,6 +2,16 @@
 
   var
   
+  indexOf = function indexOf( array, item ) {
+    var len = array.length;
+    for( var i=0 ; i<len; i++) {
+      if( i in array && array[i] === item ) {
+        return i;
+      }
+    }
+    return -1;
+  },
+  
   createImage = function createImage( attrs ) {
     var container = document.createElement( "DIV" );
     container.className = "container " + attrs.classes;
@@ -280,6 +290,30 @@
       return true;
     }
     return false;
+  };
+  
+  Photo.viewer.prototype.selectNextPhoto = function selectNextPhoto() {
+    var photos = this.cache.albums[this.currentAlbum].photos;
+    var currentIdx = indexOf( photos, this.currentPhoto );
+    if( currentIdx == -1 ) { return false; }
+    if( currentIdx < photos.length - 1 ) {
+      var nextIdx = currentIdx + 1;
+    } else {
+      var nextIdx = 0;
+    }
+    setPhoto.call( this, photos[nextIdx] );
+  };
+
+  Photo.viewer.prototype.selectPreviousPhoto = function selectPreviousPhoto(){
+    var photos = this.cache.albums[this.currentAlbum].photos;
+    var currentIdx = indexOf( photos, this.currentPhoto );
+    if( currentIdx == -1 ) { return false; }
+    if( currentIdx > 0 ) {
+      var prevIdx = currentIdx - 1;
+    } else {
+      var prevIdx = photos.length - 1;
+    }
+    setPhoto.call( this, photos[prevIdx] );
   };
 
 }) ( window );

@@ -13,8 +13,10 @@
   <span id="back2albums" class="action"><a href="javascript:gotoAlbums();">&lt;&lt; albums</a></span>
   <span id="back2table"class="action"> | <a class="action"  href="javascript:gotoTable();">&lt; overview</a></span>
   <span id="tools">
-    <span id="fit" class="action"> | <a href="javascript:fit();">&gt; fit &lt;</a></span>
-    <span id="full"class="action"> | <a href="javascript:full();">&lt; full &gt;</a></span>
+    <span id="fit"  class="action"> | <a href="javascript:fit();">&gt; fit &lt;</a></span>
+    <span id="full" class="action"> | <a href="javascript:full();">&lt; full &gt;</a></span>
+    <span id="next" class="action"> | <a href="javascript:prev();">&lt;&lt; previous</a></span>
+    <span id="prev" class="action"> | <a href="javascript:next();">next &gt;&gt;</a></span>
   </span>
   
   <div id="myViewer-albums" class="albums"></div>
@@ -111,6 +113,14 @@
       if( isIE ) { img.height *= scale; }
       document.getElementById( 'fit' ).style.display  = "inline";
       document.getElementById( 'full' ).style.display = "none";
+    }
+    
+    function prev() {
+      myViewer.selectPreviousPhoto();
+    }
+    
+    function next() {
+      myViewer.selectNextPhoto();
     }
     
     var myViewer = Photo.activate          ( "myViewer-" )
