@@ -18,7 +18,9 @@ SPAN#tools {
   display: none;
 }
 
-SPAN.action#fit {
+SPAN.action#fit,
+SPAN.action#next,
+SPAN.action#prev {
   display: inline;
 }
 
