@@ -124,6 +124,7 @@
     }
     
     var myViewer = Photo.activate          ( "myViewer-" )
+                        .limitTo           ( 10 )  // before useDataProvider :-(
                         .useDataProvider   ( myGoogle    )
                         .onShowAlbums      ( showAlbums  )
                         .onAlbumSelection  ( showTable   )

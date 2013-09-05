@@ -95,10 +95,11 @@
     var cb = registerCallback( function(data) { 
       processAlbums.call(viewer, data);
     } );
-    
     var base = "https://picasaweb.google.com/data/feed/base/user/" 
                + this.userId + "?alt=json-in-script&hl=en_US&access=public";
-    var url = base + "&kind=album&max-results=1000&callback=__google_photo_cb__["+cb+"]";
+    var url = base + "&kind=album&max-results="
+                   + (viewer.limit != null ? viewer.limit : 1000)
+                   + "&callback=__google_photo_cb__["+cb+"]";
     get( url );
   };
   

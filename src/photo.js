@@ -117,6 +117,7 @@
     this.photo  = document.getElementById( id + "photo"  );
     this.clearCache();
     startHashWatcher.apply(this);
+    this.limit = null; // show all
   },
 
   Photo.viewer.prototype.useDataProvider = 
@@ -125,6 +126,11 @@
       provider.populate(this);
       return this;
     };
+
+  Photo.viewer.prototype.limitTo = function limitTo( limit ) {
+    this.limit = limit > 0 ? limit : null;
+    return this;
+  };
 
   Photo.viewer.prototype.onShowAlbums = function onShowAlbums( cb ) {
     if( typeof cb == "function" ) { this.handleShowAlbums = cb; }
